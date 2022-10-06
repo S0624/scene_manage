@@ -1,8 +1,8 @@
 #include "DxLib.h"
-#include "SceneMain.h"
+#include "SceneTest.h"
 #include "SceneTitle.h"
 
-void SceneMain::init()
+void SceneTest::init()
 {
 	m_textPosX = 0;
 	m_textVecX = 4;
@@ -10,7 +10,7 @@ void SceneMain::init()
 	m_isEnd = false;
 }
 
-SceneBase* SceneMain::update()
+SceneBase* SceneTest::update()
 {
 	// 文字の移動
 	m_textPosX += m_textVecX;
@@ -26,14 +26,14 @@ SceneBase* SceneMain::update()
 	}
 
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-	if (padState & PAD_INPUT_2)
+	if (padState & PAD_INPUT_3)
 	{
 		return (new SceneTitle);
 	}
 	return this;
 }
 
-void SceneMain::draw()
+void SceneTest::draw()
 {
-	DrawString(m_textPosX, 0,"メイン画面",GetColor(255,255,255));
+	DrawString(m_textPosX, 0, "テスト画面(・-・)", GetColor(255, 255, 255));
 }

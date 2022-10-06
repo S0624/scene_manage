@@ -2,11 +2,12 @@
 #include <cassert>
 
 #include "SceneTitle.h"
-#include "SceneMain.h"
+
+
 
 SceneManager::SceneManager()
 {
-	m_kind = kSceneKindTitle;
+	//m_kind = kSceneKindTitle;
 	m_pScene = nullptr;
 }
 SceneManager::~SceneManager()
@@ -16,20 +17,8 @@ SceneManager::~SceneManager()
 
 void SceneManager::init(SceneKind kind)
 {
-	m_kind = kind;
-	switch (m_kind)
-	{
-	case SceneManager::kSceneKindTitle:
-		m_pScene = new SceneTitle;
-		break;
-	case SceneManager::kSceneKindMain:
-		m_pScene = new SceneMain;
-		break;
-	case SceneManager::kSceneKindNum:
-	default:
-		assert(false);
-		break;
-	}
+	
+	m_pScene = new SceneTitle;
 	m_pScene->init();
 
 }
@@ -48,29 +37,17 @@ void SceneManager::update()
 	assert(m_pScene);
 	if (!m_pScene) return;
 
-	m_pScene->update();		//nullでなければupdate処理を行う
-
-	if (m_pScene->isEnd())
+	SceneBase* pScene = m_pScene->update();		//nullでなければupdate処理を行う
+	if (pScene != m_pScene)
 	{
-		//シーンの終了処理
+		//前のシーンの終了処理
 		m_pScene->end();
 		delete m_pScene;
 
-		//次のシーンの生成・初期化
-		switch (m_kind)
-		{
-		case SceneManager::kSceneKindTitle:
-			init(kSceneKindMain);
-			break;
-		case SceneManager::kSceneKindMain:
-			init(kSceneKindTitle);
-			break;
-		case SceneManager::kSceneKindNum:
-		default:
-			assert(false);
-			break;
-		}
+		m_pScene = pScene;
+		m_pScene -> init();
 	}
+
 }
 
 void SceneManager::draw()
