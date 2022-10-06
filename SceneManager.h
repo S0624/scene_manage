@@ -1,7 +1,7 @@
 #pragma once
 
-#include "SceneTitle.h"
-#include "SceneMain.h"
+#include"SceneBase.h"
+
 
 class SceneManager
 {
@@ -29,6 +29,5 @@ public:
 private:
 	SceneKind	m_kind;
 
-	SceneTitle	m_title;
-	SceneMain	m_main;
+	SceneBase* m_pScene;
 };
